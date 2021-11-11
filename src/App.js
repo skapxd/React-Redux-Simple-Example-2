@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+// @ts-check
+import React, { useState } from "react";
 
-function App() {
+export default function App() {
+  const [change, setChange] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ReadComponent text={change} />
+      <WriteComponent
+        onChange={(supS) => {
+          setChange((s) => supS );
+        }}
+      />
     </div>
   );
 }
 
-export default App;
+function ReadComponent(props) {
+  const { text = 0 } = props;
+
+  return <p>{text}</p>;
+}
+
+function WriteComponent(props) {
+  const { onChange = () => {
+    console.log('el parametro se mando vacio')
+  }} = props;
+
+  const initStateCounter = 0;
+  const [counter, setCounter] = useState(initStateCounter);
+
+  return (
+    <div>
+      <button
+        className="add"
+        onClick={() => {
+          onChange && onChange(counter);
+          setCounter((s) => s + 1);
+        }}
+      >
+        +1
+      </button>
+
+      <button className="minus"
+      onClick={() => {
+        onChange && onChange(counter);
+        setCounter((s) => s - 1);
+      }}
+      >-1</button>
+
+      <button className="reset"
+      onClick={() => {
+        onChange && onChange(counter);
+        setCounter((s) => 0);
+      }}
+      >reset</button>
+    </div>
+  );
+}
