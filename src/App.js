@@ -1,22 +1,44 @@
 // @ts-check
 
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   actionAddCounter,
   actionMinusCounter,
   actionResetCounter,
-} from "./redux/action";
+} from "./redux/counter/action";
 
 /**@typedef {import('./GlobalState').GlobalState} GlobalState */
 
-
 export default function App() {
-
-/**@type {GlobalState} */
+  /**@type {GlobalState} */
   const globalState = useSelector((s) => s);
   const dispatch = useDispatch();
 
-  console.log('globalState: ', globalState)
+
+  useEffect(() => {
+
+    const main = async () => {
+      const getDataFromAPI = async () => {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/todos"
+        );
+        const json = response.json();
+        return json;
+      };
+
+      const paintDataInDocument = (data) => {
+        document.querySelector("p").innerHTML = JSON.stringify(data);
+      };
+
+      //
+      const data = await getDataFromAPI();
+      paintDataInDocument(data)
+    };
+
+    main();
+  }, []);
+
   return (
     <div>
       <p>{globalState.counter}</p>
