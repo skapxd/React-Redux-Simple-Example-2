@@ -6,38 +6,40 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
+import { enumCounterType } from "./redux/action";
 
-export const counterTypes = {
-  add: "add",
-  minus: "minus",
-  reset: "reset",
-};
+/**@typedef {import('./GlobalState').GlobalState} GlobalState */
 
 const initState = 0;
-
-/**@typedef  */
-/**
- * @param {number} state
- * @param {{type: string, payload: number}} action
- */
-const reducer = (state = initState, action) => {
-  if (action.type === counterTypes.add) {
+const reducerCounter = (state = initState, action) => {
+  if (action.type === enumCounterType.add) {
     return state + (action.payload ?? 1);
   }
-
-  if (action.type === counterTypes.minus) {
+  if (action.type === enumCounterType.minus) {
     return state - (action.payload ?? 1);
   }
-
-  if (action.type === counterTypes.reset) {
+  if (action.type === enumCounterType.reset) {
     return 0;
   }
-
   return state;
 };
 
-const store = createStore(reducer);
+const storeCounter = createStore(reducerCounter);
+
+//
+const reducerAuth = (state = false, action) => {
+  return state;
+};
+
+const storeAuth = createStore(reducerAuth);
+
+//
+const combineReducer = combineReducers({
+  counter: reducerCounter,
+  auth: reducerAuth,
+});
+const store = createStore(combineReducer);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -52,3 +54,17 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+// const clousure = (fn) => {
+//   let state = 0;
+
+//   return () => {
+//     console.log(state);
+//     fn();
+//     state++;
+//   };
+// };
+
+// const dispatch = clousure(() => {
+//   console.log('<App />')
+// })

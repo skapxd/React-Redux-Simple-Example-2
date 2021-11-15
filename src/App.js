@@ -1,21 +1,31 @@
 // @ts-check
-import { useDispatch, useSelector } from "react-redux";
-import { counterTypes } from ".";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  actionAddCounter,
+  actionMinusCounter,
+  actionResetCounter,
+} from "./redux/action";
+
+/**@typedef {import('./GlobalState').GlobalState} GlobalState */
+
 
 export default function App() {
-  const state = useSelector((state) => state);
+
+/**@type {GlobalState} */
+  const globalState = useSelector((s) => s);
   const dispatch = useDispatch();
+
+  console.log('globalState: ', globalState)
   return (
     <div>
-      <p>{state}</p>
+      <p>{globalState.counter}</p>
 
       <div>
         <button
           className="add"
           onClick={() => {
-            dispatch({
-              type: counterTypes.add,
-            });
+            dispatch(actionAddCounter(2));
           }}
         >
           +1
@@ -24,9 +34,7 @@ export default function App() {
         <button
           className="minus"
           onClick={() => {
-            dispatch({
-              type: counterTypes.minus,
-            });
+            dispatch(actionMinusCounter());
           }}
         >
           -1
@@ -35,9 +43,7 @@ export default function App() {
         <button
           className="reset"
           onClick={() => {
-            dispatch({
-              type: counterTypes.reset,
-            });
+            dispatch(actionResetCounter());
           }}
         >
           reset
