@@ -15,33 +15,41 @@ export default function App() {
   const globalState = useSelector((s) => s);
   const dispatch = useDispatch();
 
+  // useEffect(() => {
 
-  useEffect(() => {
+  //   const main = async () => {
+  //     const getDataFromAPI = async () => {
+  //       const response = await fetch(
+  //         "https://jsonplaceholder.typicode.com/todos"
+  //       );
+  //       const json = response.json();
+  //       return json;
+  //     };
 
-    const main = async () => {
-      const getDataFromAPI = async () => {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/todos"
-        );
-        const json = response.json();
-        return json;
-      };
+  //     const paintDataInDocument = (data) => {
+  //       document.querySelector("p").innerHTML = JSON.stringify(data);
+  //     };
 
-      const paintDataInDocument = (data) => {
-        document.querySelector("p").innerHTML = JSON.stringify(data);
-      };
+  //     //
+  //     const data = await getDataFromAPI();
+  //     paintDataInDocument(data)
+  //   };
 
-      //
-      const data = await getDataFromAPI();
-      paintDataInDocument(data)
-    };
-
-    main();
-  }, []);
+  //   main();
+  // }, []);
 
   return (
     <div>
-      <p>{globalState.counter}</p>
+      <button
+        onClick={() => {
+          dispatch({
+            type: "f_get",
+          });
+        }}
+      >
+        fetch
+      </button>
+      {/* <p>{globalState.counter}</p>
 
       <div>
         <button
@@ -70,7 +78,7 @@ export default function App() {
         >
           reset
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
